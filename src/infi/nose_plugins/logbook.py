@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from nose.plugins import Plugin
 
 
@@ -14,6 +15,10 @@ class LogbookPlugin(Plugin):  # pragma: no cover
         return 'logbook compatability'
 
     def begin(self):
-        from logbook.compat import LoggingHandler
-        LoggingHandler().push_application()
+        try:
+            from logbook.compat import LoggingHandler
+        except ImportError:
+            pass
+        else:
+            LoggingHandler().push_application()
 
