@@ -1,0 +1,39 @@
+from nose.plugins import Plugin as NosePlugin
+from logging import getLogger
+logger = getLogger(__name__)
+
+
+class LoggingToStderrPlugin(NosePlugin):
+    """logging to stderr"""
+    name = 'logging-to-stderr'
+
+    def help(self):
+        return "logging to stderr"
+
+    def stopContext(self, context):
+        pass
+
+    def startContext(self, context):
+        from izbox.scripts import nosetests
+        import logging
+        import sys
+        root_logger = logging.getLogger()
+        if hasattr(root_logger, "handlers"):
+            for handler in root_logger.handlers:
+                root_logger.removeHandler(handler)
+        kwargs = dict(level=logging.DEBUG, stream=sys.stderr, format=nosetests.NOSE_ENV['NOSE_LOGFORMAT'])
+        logging.basicConfig(**kwargs)
+
+        for handler in root_logger.handlers:
+            handler.addFilter(self)
+
+    def filter(self, record):
+        from izbox.scripts.nosetests import NOSE_ENV
+        modules = [item.strip('-') for item in NOSE_ENV['NOSE_LOGFILTER'].split(',')]
+        return 0 if any([module in record.name for module in modules]) else 1
+
+    def startTest(self, test):
+        logger.debug("test {} started", test)
+
+    def endTest(self, test):
+        logger.debug("test {} ended", test)

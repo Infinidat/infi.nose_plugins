@@ -31,6 +31,9 @@ SETUP_INFO = dict(
     entry_points = dict(
         console_scripts = ${project:console_scripts},
         gui_scripts = ${project:gui_scripts},
+        nose_plugins = ['logbook = infi.nose_plugins:LogbookPlugin',
+                        'stderr = infi.nose_plugins:LoggingToStderrPlugin',
+                        'html = infi.nose_plugins.html:NosePlugin']
         ),
 )
 
