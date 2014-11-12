@@ -30,7 +30,6 @@ class LoggingToStderrPlugin(NosePlugin):
             handler.addFilter(self)
 
     def filter(self, record):
-        from izbox.scripts.nosetests import NOSE_ENV
         modules = [item.strip('-') for item in NOSE_ENV['NOSE_LOGFILTER'].split(',')]
         return 0 if any([module in record.name for module in modules]) else 1
 
