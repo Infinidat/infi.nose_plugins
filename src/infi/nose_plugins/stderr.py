@@ -34,7 +34,7 @@ class LoggingToStderrPlugin(NosePlugin):
         return 0 if any([module in record.name for module in modules]) else 1
 
     def startTest(self, test):
-        logger.debug("test {} started", test)
+        logger.debug("test {} started".format(test))
 
     def endTest(self, test):
-        logger.debug("test {} ended", test)
+        logger.debug("test {} ended".format(test))
