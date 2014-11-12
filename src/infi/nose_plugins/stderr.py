@@ -2,6 +2,9 @@ from nose.plugins import Plugin as NosePlugin
 from logging import getLogger
 logger = getLogger(__name__)
 
+NOSE_ENV = dict(NOSE_LOGFORMAT="%(asctime)-15s %(levelname)s:%(name)-40s:%(message)s",
+                NOSE_LOGFILTER="-infi.storagemodel.errors,-gipc,-passlib")
+
 
 class LoggingToStderrPlugin(NosePlugin):
     """logging to stderr"""
@@ -14,14 +17,13 @@ class LoggingToStderrPlugin(NosePlugin):
         pass
 
     def startContext(self, context):
-        from izbox.scripts import nosetests
         import logging
         import sys
         root_logger = logging.getLogger()
         if hasattr(root_logger, "handlers"):
             for handler in root_logger.handlers:
                 root_logger.removeHandler(handler)
-        kwargs = dict(level=logging.DEBUG, stream=sys.stderr, format=nosetests.NOSE_ENV['NOSE_LOGFORMAT'])
+        kwargs = dict(level=logging.DEBUG, stream=sys.stderr, format=NOSE_ENV['NOSE_LOGFORMAT'])
         logging.basicConfig(**kwargs)
 
         for handler in root_logger.handlers:
