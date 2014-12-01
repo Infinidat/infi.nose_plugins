@@ -17,8 +17,9 @@ class LogbookPlugin(Plugin):  # pragma: no cover
     def begin(self):
         try:
             from logbook.compat import LoggingHandler
+            from logbook.concurrency import enable_gevent
         except ImportError:
             pass
         else:
             LoggingHandler().push_application()
-
+            enable_gevent()
