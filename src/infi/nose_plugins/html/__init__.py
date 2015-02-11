@@ -7,7 +7,6 @@ from nose.plugins.logcapture import MyMemoryHandler
 import os
 import traceback
 import logging
-import lxml.etree as etree
 import sys
 import time
 import re
