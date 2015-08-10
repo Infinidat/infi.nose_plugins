@@ -33,6 +33,7 @@ SETUP_INFO = dict(
         "gui_scripts": ${project:gui_scripts},
         "nose.plugins": ['logbook = infi.nose_plugins.logbook:LogbookPlugin',
                          'stderr = infi.nose_plugins.stderr:LoggingToStderrPlugin',
+                         'requests.no.warning = infi.nose_plugins.requestswarnings:RequestsSuppressWarningPlugin',
                         ],
         },
 )
